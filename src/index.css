@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -75,6 +74,7 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -95,24 +95,28 @@
     @apply bg-aiBackground text-aiText;
     margin: 0;
     padding: 0;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    overflow-x: hidden; /* allow vertical scrolling */
+    min-height: 100dvh; /* ensure at least full viewport height */
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Plus Jakarta Sans", sans-serif;
     font-weight: 600;
   }
-  
+
   .video-container {
     position: relative;
     border-radius: 16px;
     overflow: hidden;
     background-color: #000;
   }
-  
+
   .video-glow {
     position: absolute;
     border-radius: 20px;
@@ -121,7 +125,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.5;
     transform: scale(0.97);
   }
@@ -147,7 +152,7 @@
   .animate-pulse-glow {
     animation: pulse-glow 3s ease-in-out infinite;
   }
-  
+
   .animate-gradient-background {
     background-size: 200% 200%;
     animation: gradient-shift 15s ease infinite;
