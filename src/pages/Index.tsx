@@ -1,7 +1,7 @@
 import React from "react";
 import VideoDemo from "../components/VideoDemo";
 import CtaButton from "../components/CtaButton";
-import { MessageCircle, Clock, Compass } from "lucide-react";
+import { Radio, Clock, Compass } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   HoverCard,
@@ -28,7 +28,6 @@ const Index = () => {
               <HoverCard>
                 <HoverCardTrigger>
                   <Badge className="bg-aiPrimary/10 hover:bg-aiPrimary/20 text-aiPrimary px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-default">
-                    <MessageCircle className="h-4 w-4 mr-2 animate-pulse" />
                     Sonar
                   </Badge>
                 </HoverCardTrigger>
@@ -80,7 +79,7 @@ const Index = () => {
             <div className="pt-4">
               <CtaButton
                 text="Book a 15-min Strategy Call"
-                link="https://calendly.com/echomind-ai/demo"
+                link="https://calendly.com/sonar/demo"
               />
 
               {/* Context Line */}
