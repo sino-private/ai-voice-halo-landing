@@ -71,6 +71,7 @@ export default {
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
+				heading: ['Plus Jakarta Sans', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -96,17 +97,19 @@ export default {
 				},
 				'pulse-glow': {
 					'0%, 100%': { 
-						boxShadow: '0 0 20px 10px rgba(48, 92, 255, 0.1)' 
+						opacity: '0.6',
+						transform: 'scale(0.95)'
 					},
 					'50%': { 
-						boxShadow: '0 0 30px 15px rgba(48, 92, 255, 0.2)' 
+						opacity: '1',
+						transform: 'scale(1)'
 					},
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+				'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
 			}
 		}
 	},
