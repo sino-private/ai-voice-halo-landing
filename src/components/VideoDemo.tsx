@@ -4,7 +4,7 @@ import { Play } from 'lucide-react';
 
 const VideoDemo = () => {
   return (
-    <div className="relative w-full max-w-2xl mx-auto">
+    <div className="relative w-full mx-auto">
       <div className="video-container aspect-video relative z-10 shadow-xl rounded-xl overflow-hidden">
         <div className="flex items-center justify-center h-full bg-gradient-to-br from-black/95 to-black/90">
           <div className="flex flex-col items-center gap-3">
