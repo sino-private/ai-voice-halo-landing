@@ -1,10 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Play, Pause, Volume2, VolumeX } from "lucide-react";
+import {
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize2,
+  Minimize2,
+} from "lucide-react";
 
 const VideoDemo = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -15,6 +23,15 @@ const VideoDemo = () => {
       videoRef.current.volume = 0.3;
       videoRef.current.muted = false;
     }
+
+    const handleFullscreenChange = () => {
+      setIsFullscreen(document.fullscreenElement !== null);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
   }, []);
 
   const handlePlay = () => {
@@ -35,6 +52,20 @@ const VideoDemo = () => {
     if (videoRef.current) {
       videoRef.current.muted = !isMuted;
       setIsMuted(!isMuted);
+    }
+  };
+
+  const toggleFullscreen = async () => {
+    if (!videoRef.current) return;
+
+    try {
+      if (!document.fullscreenElement) {
+        await videoRef.current.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      console.error("Error toggling fullscreen:", error);
     }
   };
 
@@ -86,22 +117,35 @@ const VideoDemo = () => {
               />
             </div>
 
-            <div className="flex items-center gap-4">
-              <button
-                onClick={handlePause}
-                className="text-white hover:text-aiPrimary transition-colors"
-              >
-                <Pause className="h-6 w-6" />
-              </button>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={handlePause}
+                  className="text-white hover:text-aiPrimary transition-colors"
+                >
+                  <Pause className="h-6 w-6" />
+                </button>
+
+                <button
+                  onClick={toggleMute}
+                  className="text-white hover:text-aiPrimary transition-colors"
+                >
+                  {isMuted ? (
+                    <VolumeX className="h-6 w-6" />
+                  ) : (
+                    <Volume2 className="h-6 w-6" />
+                  )}
+                </button>
+              </div>
 
               <button
-                onClick={toggleMute}
+                onClick={toggleFullscreen}
                 className="text-white hover:text-aiPrimary transition-colors"
               >
-                {isMuted ? (
-                  <VolumeX className="h-6 w-6" />
+                {isFullscreen ? (
+                  <Minimize2 className="h-6 w-6" />
                 ) : (
-                  <Volume2 className="h-6 w-6" />
+                  <Maximize2 className="h-6 w-6" />
                 )}
               </button>
             </div>
