@@ -103,6 +103,7 @@
   
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
   }
   
   .video-container {
@@ -152,4 +153,3 @@
     animation: gradient-shift 15s ease infinite;
   }
 }
-

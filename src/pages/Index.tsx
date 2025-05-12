@@ -2,18 +2,18 @@
 import React from 'react';
 import VideoDemo from '../components/VideoDemo';
 import CtaButton from '../components/CtaButton';
-import { MessageCircle, Zap, Target } from 'lucide-react';
+import { MessageCircle, Clock, Compass } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card';
 import { Badge } from '@/components/ui/badge';
 
 const Index = () => {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#EDF1F7] to-[#F5F7FA] px-4 py-10 overflow-hidden animate-gradient-background">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#F0F4FA] to-[#E8EFF8] px-4 py-10 overflow-hidden animate-gradient-background">
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-30 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 -left-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-        <div className="absolute top-60 -right-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-0 -left-40 w-80 h-80 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 -right-20 w-72 h-72 bg-blue-50 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
       </div>
       
       <div className="max-w-6xl w-full mx-auto relative z-10">
@@ -26,20 +26,20 @@ const Index = () => {
                 <HoverCardTrigger>
                   <Badge className="bg-aiPrimary/10 hover:bg-aiPrimary/20 text-aiPrimary px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-default">
                     <MessageCircle className="h-4 w-4 mr-2 animate-pulse" />
-                    Category-defining AI Agent
+                    AI Voice Agent
                   </Badge>
                 </HoverCardTrigger>
                 <HoverCardContent className="w-80">
-                  <p className="text-sm">Sonar redefines business communication with AI that truly understands context and intent.</p>
+                  <p className="text-sm">Sonar uses advanced AI to handle complex business processes through natural voice conversations.</p>
                 </HoverCardContent>
               </HoverCard>
               
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-aiText leading-tight">
-                <span className="text-aiPrimary">Sonar</span> doubles your sales team's capacity
+                Your AI voice team for everything operations can't handle in time
               </h1>
               
               <p className="text-lg text-gray-600">
-                Answer leads in 3 seconds, close deals while you sleep.
+                From answering leads to following up with no-shows — Sonar speaks, thinks, and acts like your team.
               </p>
             </div>
 
@@ -48,18 +48,18 @@ const Index = () => {
               <Card className="border-0 shadow-sm bg-white/80 transition-all duration-300 hover:shadow-md hover:translate-y-[-2px]">
                 <CardContent className="p-4 flex items-center gap-3">
                   <div className="bg-aiPrimary/10 p-2 rounded-full">
-                    <Zap className="h-4 w-4 text-aiPrimary" />
+                    <Compass className="h-4 w-4 text-aiPrimary" />
                   </div>
-                  <span className="text-sm font-medium">Speaks like your top rep</span>
+                  <span className="text-sm font-medium">Built for business workflows</span>
                 </CardContent>
               </Card>
               
               <Card className="border-0 shadow-sm bg-white/80 transition-all duration-300 hover:shadow-md hover:translate-y-[-2px]">
                 <CardContent className="p-4 flex items-center gap-3">
                   <div className="bg-aiPrimary/10 p-2 rounded-full">
-                    <Target className="h-4 w-4 text-aiPrimary" />
+                    <Clock className="h-4 w-4 text-aiPrimary" />
                   </div>
-                  <span className="text-sm font-medium">Never misses a qualified lead</span>
+                  <span className="text-sm font-medium">Inbound. Outbound. Always on.</span>
                 </CardContent>
               </Card>
             </div>
@@ -71,9 +71,9 @@ const Index = () => {
                 link="https://calendly.com/echomind-ai/demo"
               />
               
-              {/* Moat Line */}
+              {/* Context Line */}
               <p className="mt-5 text-gray-600 max-w-lg text-sm">
-                Unlike bots, we reason like humans. Built for teams who can't afford to miss a call.
+                Deploy across departments or focus on high-value conversations — Sonar scales with your needs.
               </p>
             </div>
           </div>
