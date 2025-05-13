@@ -145,7 +145,7 @@ const VideoDemo = () => {
   -------------------------------------------------------- */
   return (
     <div className="relative w-full mx-auto px-4 sm:px-6 lg:px-8 mb-8 overflow-visible">
-      <div className="video-container aspect-video relative z-10 shadow-2xl rounded-xl overflow-hidden transition-all duration-500 border border-white/20 hover:shadow-blue-200/30 transform hover:scale-[1.01] max-w-[100vw]">
+      <div className="video-container aspect-video relative z-10 shadow-2xl rounded-xl overflow-hidden transition-all duration-500 border border-white/20 hover:shadow-blue-200/30 md:hover:scale-[1.01] max-w-[100vw]">
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
