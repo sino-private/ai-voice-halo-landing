@@ -8,6 +8,24 @@ import {
   Minimize2,
 } from "lucide-react";
 
+// Add vendor-specific fullscreen type declarations
+declare global {
+  interface Document {
+    webkitFullscreenElement: Element | null;
+    mozFullScreenElement: Element | null;
+    msFullscreenElement: Element | null;
+    webkitExitFullscreen: () => Promise<void>;
+    mozCancelFullScreen: () => Promise<void>;
+    msExitFullscreen: () => Promise<void>;
+  }
+
+  interface HTMLVideoElement {
+    webkitRequestFullscreen: () => Promise<void>;
+    mozRequestFullScreen: () => Promise<void>;
+    msRequestFullscreen: () => Promise<void>;
+  }
+}
+
 const VideoDemo = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -59,10 +77,33 @@ const VideoDemo = () => {
     if (!videoRef.current) return;
 
     try {
-      if (!document.fullscreenElement) {
-        await videoRef.current.requestFullscreen();
+      if (
+        !document.fullscreenElement &&
+        !document.webkitFullscreenElement &&
+        !document.mozFullScreenElement &&
+        !document.msFullscreenElement
+      ) {
+        // Try different vendor-specific fullscreen methods
+        if (videoRef.current.requestFullscreen) {
+          await videoRef.current.requestFullscreen();
+        } else if (videoRef.current.webkitRequestFullscreen) {
+          await videoRef.current.webkitRequestFullscreen();
+        } else if (videoRef.current.mozRequestFullScreen) {
+          await videoRef.current.mozRequestFullScreen();
+        } else if (videoRef.current.msRequestFullscreen) {
+          await videoRef.current.msRequestFullscreen();
+        }
       } else {
-        await document.exitFullscreen();
+        // Exit fullscreen
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          await document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          await document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          await document.msExitFullscreen();
+        }
       }
     } catch (error) {
       console.error("Error toggling fullscreen:", error);
