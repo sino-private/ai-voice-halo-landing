@@ -255,45 +255,41 @@ const VideoDemo = () => {
 
         {/* EMAIL GATE - Show if user doesn't have access */}
         {!hasAccess && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 sm:p-8 mx-4 max-w-md w-full shadow-2xl">
-              <div className="text-center mb-6">
-                <div className="bg-aiPrimary/10 rounded-full p-3 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <Mail className="h-8 w-8 text-aiPrimary" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+          <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-xl">
+            <div className="text-center max-w-xs mx-4 px-4">
+              <div className="mb-6">
+                <Mail className="h-8 w-8 text-white mx-auto mb-4 opacity-90" />
+                <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">
                   See Sonar in Action
                 </h3>
-                <p className="text-gray-600 text-sm">
-                  Enter your email to watch our product demo
+                <p className="text-white/80 text-sm sm:text-base">
+                  Enter your email to watch our demo
                 </p>
               </div>
 
-              <form onSubmit={submitEmail} className="space-y-4">
-                <div>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email address"
-                    required
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-aiPrimary focus:border-transparent outline-none transition-all"
-                    disabled={isSubmitting}
-                  />
-                </div>
+              <form onSubmit={submitEmail} className="space-y-3">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter email"
+                  required
+                  className="w-full px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 text-center text-sm sm:text-base outline-none focus:ring-2 focus:ring-white/50 transition-all"
+                  disabled={isSubmitting}
+                />
 
                 {submitError && (
-                  <p className="text-red-600 text-sm">{submitError}</p>
+                  <p className="text-red-400 text-xs">{submitError}</p>
                 )}
 
                 <button
                   type="submit"
                   disabled={isSubmitting || !email.trim()}
-                  className="w-full bg-aiPrimary text-white py-3 px-6 rounded-lg font-semibold hover:bg-aiPrimary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                  className="w-full bg-white text-gray-900 py-3 px-4 rounded-lg font-semibold hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-900 rounded-full animate-spin" />
                       Submitting...
                     </>
                   ) : (
@@ -305,9 +301,7 @@ const VideoDemo = () => {
                 </button>
               </form>
 
-              <p className="text-xs text-gray-500 mt-4 text-center">
-                We respect your privacy and won't spam you.
-              </p>
+              <p className="text-white/60 text-xs mt-4">We won't spam you.</p>
             </div>
           </div>
         )}
