@@ -6,6 +6,8 @@ import {
   VolumeX,
   Maximize2,
   Minimize2,
+  Mail,
+  ArrowRight,
 } from "lucide-react";
 
 /* ------------------------------------------------------------
@@ -40,12 +42,22 @@ const VideoDemo = () => {
   const [isFullscreen, setIsFS] = useState(false);
   const [currentTime, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [email, setEmail] = useState("");
+  const [hasAccess, setHasAccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const videoRef = useRef<HTMLVideoElement>(null);
 
   /* --------------------------------------------------------
      One-time setup
   -------------------------------------------------------- */
   useEffect(() => {
+    // Check if user already has access
+    const savedAccess = localStorage.getItem("sonar_video_access");
+    if (savedAccess === "true") {
+      setHasAccess(true);
+    }
+
     const video = videoRef.current;
     if (video) {
       video.volume = 0.3;
@@ -76,6 +88,91 @@ const VideoDemo = () => {
       };
     }
   }, []);
+
+  /* --------------------------------------------------------
+     Email submission
+  -------------------------------------------------------- */
+  const submitEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Starting email submission...");
+
+    if (!email.trim()) {
+      console.log("Email is empty, stopping.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError("");
+    console.log("Attempting to submit email:", email.trim());
+
+    try {
+      // Airtable configuration
+      const AIRTABLE_BASE_ID = "appWF6OTeb27mmnCB";
+      const AIRTABLE_TABLE_NAME = "Emails";
+      const AIRTABLE_TOKEN = import.meta.env.VITE_AIRTABLE_TOKEN;
+
+      if (!AIRTABLE_TOKEN) {
+        throw new Error(
+          "Airtable token not found. Please check your .env.local file."
+        );
+      }
+
+      const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`;
+
+      const payload = {
+        records: [
+          {
+            fields: {
+              Email: email.trim(),
+              Timestamp: new Date().toISOString(),
+            },
+          },
+        ],
+      };
+
+      console.log("Sending request to Airtable:", url);
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      console.log("Got response status:", response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Airtable error:", errorData);
+        throw new Error(
+          `Airtable API error: ${errorData.error?.message || "Unknown error"}`
+        );
+      }
+
+      const result = await response.json();
+      console.log("Airtable response:", result);
+
+      // Grant access
+      setHasAccess(true);
+      localStorage.setItem("sonar_video_access", "true");
+      console.log("Access granted, submission complete");
+
+      // Clear the email field
+      setEmail("");
+    } catch (error) {
+      console.error("Error submitting email:", error);
+      console.error("Error details:", {
+        message: error.message,
+        stack: error.stack,
+      });
+      setSubmitError(error.message || "Failed to submit. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+      console.log("Submission process finished");
+    }
+  };
 
   /* --------------------------------------------------------
      Control handlers
@@ -156,8 +253,67 @@ const VideoDemo = () => {
           webkit-playsinline="true"
         />
 
-        {/* CONTROLS */}
-        {isPlaying && (
+        {/* EMAIL GATE - Show if user doesn't have access */}
+        {!hasAccess && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 sm:p-8 mx-4 max-w-md w-full shadow-2xl">
+              <div className="text-center mb-6">
+                <div className="bg-aiPrimary/10 rounded-full p-3 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <Mail className="h-8 w-8 text-aiPrimary" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  See Sonar in Action
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  Enter your email to watch our product demo
+                </p>
+              </div>
+
+              <form onSubmit={submitEmail} className="space-y-4">
+                <div>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-aiPrimary focus:border-transparent outline-none transition-all"
+                    disabled={isSubmitting}
+                  />
+                </div>
+
+                {submitError && (
+                  <p className="text-red-600 text-sm">{submitError}</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !email.trim()}
+                  className="w-full bg-aiPrimary text-white py-3 px-6 rounded-lg font-semibold hover:bg-aiPrimary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      Watch Demo
+                      <ArrowRight className="h-4 w-4" />
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <p className="text-xs text-gray-500 mt-4 text-center">
+                We respect your privacy and won't spam you.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* CONTROLS - Only show if user has access */}
+        {hasAccess && isPlaying && (
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 sm:p-4 touch-none">
             <div className="flex items-center gap-2 mb-2">
               <input
@@ -205,8 +361,8 @@ const VideoDemo = () => {
           </div>
         )}
 
-        {/* PLAY CTA */}
-        {!isPlaying && (
+        {/* PLAY CTA - Only show if user has access and not playing */}
+        {hasAccess && !isPlaying && (
           <div
             className="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer transition-opacity duration-300 hover:bg-black/50 touch-manipulation"
             onClick={handlePlay}
